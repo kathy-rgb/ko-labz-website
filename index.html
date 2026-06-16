@@ -1,0 +1,987 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ko-labz Security Consulting</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    html { scroll-behavior: smooth; }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    section { scroll-margin-top: 80px; }
+
+    :root {
+      --navy: #0d1b2a;
+      --navy-light: #162033;
+      --teal: #00b4a6;
+      --teal-light: #00d4c4;
+      --slate: #4a5568;
+      --light: #f7f9fc;
+      --white: #ffffff;
+      --text: #1a202c;
+      --muted: #718096;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      color: var(--text);
+      background: var(--white);
+      line-height: 1.6;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 60px;
+      background: rgba(13, 27, 42, 0.97);
+      backdrop-filter: blur(8px);
+    }
+    .logo {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--white);
+      letter-spacing: -0.5px;
+    }
+    .logo span { color: var(--teal); }
+    .nav-links {
+      display: flex;
+      gap: 36px;
+      list-style: none;
+    }
+    .nav-links a {
+      color: rgba(255,255,255,0.75);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      letter-spacing: 0.3px;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--teal); }
+    .nav-cta {
+      background: var(--teal);
+      color: var(--navy) !important;
+      padding: 9px 22px;
+      border-radius: 6px;
+      font-weight: 600 !important;
+      transition: background 0.2s !important;
+    }
+    .nav-cta:hover { background: var(--teal-light) !important; color: var(--navy) !important; }
+
+    /* HERO */
+    .hero {
+      min-height: 100vh;
+      background: var(--navy);
+      display: flex;
+      align-items: center;
+      padding: 120px 60px 80px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -200px; right: -200px;
+      width: 700px; height: 700px;
+      background: radial-gradient(circle, rgba(0,180,166,0.12) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: -150px; left: 10%;
+      width: 500px; height: 500px;
+      background: radial-gradient(circle, rgba(0,180,166,0.07) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+    .hero-content {
+      max-width: 700px;
+      position: relative;
+      z-index: 1;
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(0,180,166,0.15);
+      border: 1px solid rgba(0,180,166,0.3);
+      color: var(--teal);
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      padding: 6px 14px;
+      border-radius: 20px;
+      margin-bottom: 28px;
+    }
+    .hero h1 {
+      font-size: 3.6rem;
+      font-weight: 700;
+      color: var(--white);
+      line-height: 1.15;
+      letter-spacing: -1px;
+      margin-bottom: 24px;
+    }
+    .hero h1 em {
+      font-style: normal;
+      color: var(--teal);
+    }
+    .hero p {
+      font-size: 1.15rem;
+      color: rgba(255,255,255,0.65);
+      max-width: 560px;
+      margin-bottom: 40px;
+      line-height: 1.8;
+    }
+    .hero-actions {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .btn-primary {
+      background: var(--teal);
+      color: var(--navy);
+      padding: 14px 32px;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.1s;
+      display: inline-block;
+    }
+    .btn-primary:hover { background: var(--teal-light); transform: translateY(-1px); }
+    .btn-outline {
+      border: 1.5px solid rgba(255,255,255,0.3);
+      color: var(--white);
+      padding: 14px 32px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      text-decoration: none;
+      transition: border-color 0.2s, background 0.2s;
+      display: inline-block;
+    }
+    .btn-outline:hover { border-color: var(--teal); color: var(--teal); }
+    .hero-stats {
+      display: flex;
+      gap: 48px;
+      margin-top: 60px;
+      padding-top: 40px;
+      border-top: 1px solid rgba(255,255,255,0.1);
+    }
+    .stat-num {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--teal);
+    }
+    .stat-label {
+      font-size: 0.8rem;
+      color: rgba(255,255,255,0.5);
+      margin-top: 2px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    /* SECTION BASE */
+    section { padding: 100px 60px; }
+    .section-tag {
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--teal);
+      margin-bottom: 14px;
+    }
+    h2 {
+      font-size: 2.4rem;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      line-height: 1.2;
+      margin-bottom: 16px;
+    }
+    .section-intro {
+      font-size: 1.05rem;
+      color: var(--muted);
+      max-width: 560px;
+      line-height: 1.8;
+    }
+
+    /* WHO WE HELP */
+    .who {
+      background: var(--light);
+    }
+    .who-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+      margin-top: 60px;
+    }
+    .who-text p { color: var(--muted); line-height: 1.9; margin-bottom: 16px; }
+    .who-cards {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    .who-card {
+      background: var(--white);
+      border-radius: 12px;
+      padding: 24px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    }
+    .who-card-icon {
+      font-size: 1.6rem;
+      margin-bottom: 10px;
+    }
+    .who-card h4 {
+      font-size: 0.95rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+    .who-card p {
+      font-size: 0.82rem;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    /* SERVICES */
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+      margin-top: 60px;
+    }
+    .service-card {
+      background: var(--white);
+      border: 1px solid #e8edf2;
+      border-radius: 16px;
+      padding: 36px;
+      transition: box-shadow 0.2s, transform 0.2s;
+      position: relative;
+      overflow: hidden;
+    }
+    .service-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 4px; height: 100%;
+      background: var(--teal);
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+    .service-card:hover {
+      box-shadow: 0 12px 40px rgba(0,0,0,0.1);
+      transform: translateY(-4px);
+    }
+    .service-card:hover::before { opacity: 1; }
+    .service-icon {
+      width: 52px; height: 52px;
+      background: rgba(0,180,166,0.1);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      margin-bottom: 20px;
+    }
+    .service-card h3 {
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+    .service-card p {
+      color: var(--muted);
+      font-size: 0.9rem;
+      line-height: 1.8;
+      margin-bottom: 20px;
+    }
+    .service-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .service-list li {
+      font-size: 0.85rem;
+      color: var(--slate);
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+    }
+    .service-list li::before {
+      content: '→';
+      color: var(--teal);
+      font-weight: 700;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    /* AI SECURITY */
+    .ai-section {
+      background: var(--navy);
+      color: var(--white);
+    }
+    .ai-section h2 { color: var(--white); }
+    .ai-section .section-intro { color: rgba(255,255,255,0.6); max-width: 600px; }
+    .ai-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(0,180,166,0.15);
+      border: 1px solid rgba(0,180,166,0.3);
+      color: var(--teal);
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      padding: 5px 12px;
+      border-radius: 20px;
+      margin-bottom: 14px;
+    }
+    .ai-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-top: 52px;
+    }
+    .ai-card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(0,180,166,0.2);
+      border-radius: 16px;
+      padding: 32px;
+      transition: background 0.2s, border-color 0.2s;
+    }
+    .ai-card:hover {
+      background: rgba(0,180,166,0.07);
+      border-color: rgba(0,180,166,0.5);
+    }
+    .ai-card-icon {
+      font-size: 2rem;
+      margin-bottom: 16px;
+    }
+    .ai-card h3 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 10px;
+    }
+    .ai-card p {
+      font-size: 0.87rem;
+      color: rgba(255,255,255,0.55);
+      line-height: 1.8;
+      margin-bottom: 18px;
+    }
+    .ai-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .ai-tag {
+      background: rgba(0,180,166,0.12);
+      color: var(--teal);
+      font-size: 0.73rem;
+      font-weight: 600;
+      padding: 3px 10px;
+      border-radius: 12px;
+    }
+    .ai-highlight {
+      margin-top: 52px;
+      background: rgba(0,180,166,0.08);
+      border: 1px solid rgba(0,180,166,0.2);
+      border-radius: 16px;
+      padding: 36px 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 40px;
+    }
+    .ai-highlight h3 {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 8px;
+    }
+    .ai-highlight p {
+      font-size: 0.9rem;
+      color: rgba(255,255,255,0.55);
+      line-height: 1.7;
+      max-width: 560px;
+    }
+
+    /* WHY KO-LABZ */
+    .why {
+      background: var(--navy);
+      color: var(--white);
+    }
+    .why h2 { color: var(--white); }
+    .why .section-intro { color: rgba(255,255,255,0.6); }
+    .why-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 32px;
+      margin-top: 60px;
+    }
+    .why-card {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 16px;
+      padding: 32px;
+    }
+    .why-num {
+      font-size: 2.5rem;
+      font-weight: 800;
+      color: var(--teal);
+      opacity: 0.4;
+      line-height: 1;
+      margin-bottom: 16px;
+    }
+    .why-card h3 {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 10px;
+    }
+    .why-card p {
+      font-size: 0.88rem;
+      color: rgba(255,255,255,0.55);
+      line-height: 1.8;
+    }
+
+    /* PROCESS */
+    .process { background: var(--light); }
+    .process-steps {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0;
+      margin-top: 60px;
+      position: relative;
+    }
+    .process-steps::before {
+      content: '';
+      position: absolute;
+      top: 30px; left: 12.5%;
+      width: 75%; height: 2px;
+      background: linear-gradient(to right, var(--teal), rgba(0,180,166,0.2));
+      z-index: 0;
+    }
+    .process-step {
+      text-align: center;
+      padding: 0 20px;
+      position: relative;
+      z-index: 1;
+    }
+    .step-circle {
+      width: 60px; height: 60px;
+      background: var(--navy);
+      border: 3px solid var(--teal);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: var(--teal);
+      margin: 0 auto 20px;
+    }
+    .process-step h4 {
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .process-step p {
+      font-size: 0.83rem;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    /* ABOUT */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
+      gap: 80px;
+      align-items: center;
+    }
+    .about-image-placeholder {
+      background: linear-gradient(135deg, var(--navy) 0%, #1a3a5c 100%);
+      border-radius: 20px;
+      height: 420px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 5rem;
+    }
+    .about-text .section-tag { margin-top: 0; }
+    .about-text p {
+      color: var(--muted);
+      line-height: 1.9;
+      margin-bottom: 16px;
+      font-size: 0.95rem;
+    }
+    .credentials {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 28px;
+    }
+    .cred-tag {
+      background: rgba(0,180,166,0.1);
+      border: 1px solid rgba(0,180,166,0.25);
+      color: var(--teal);
+      font-size: 0.78rem;
+      font-weight: 600;
+      padding: 5px 12px;
+      border-radius: 20px;
+    }
+
+    /* CTA BANNER */
+    .cta-banner {
+      background: linear-gradient(135deg, var(--teal) 0%, #009688 100%);
+      padding: 80px 60px;
+      text-align: center;
+    }
+    .cta-banner h2 {
+      color: var(--navy);
+      font-size: 2.6rem;
+      margin-bottom: 16px;
+    }
+    .cta-banner > p {
+      color: rgba(13,27,42,0.7);
+      font-size: 1.05rem;
+      max-width: 500px;
+      margin: 0 auto 36px;
+    }
+    .contact-form {
+      max-width: 520px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      text-align: left;
+    }
+    .contact-form input,
+    .contact-form textarea {
+      width: 100%;
+      padding: 14px 18px;
+      border: none;
+      border-radius: 8px;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.95rem;
+      background: rgba(255,255,255,0.95);
+      color: var(--text);
+      outline: none;
+    }
+    .contact-form textarea { height: 110px; resize: vertical; }
+    .contact-form input::placeholder,
+    .contact-form textarea::placeholder { color: #999; }
+    .btn-dark {
+      background: var(--navy);
+      color: var(--white);
+      padding: 16px 40px;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 1rem;
+      text-decoration: none;
+      display: inline-block;
+      transition: opacity 0.2s;
+      border: none;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      width: 100%;
+    }
+    .btn-dark:hover { opacity: 0.85; }
+    .form-success {
+      display: none;
+      background: rgba(255,255,255,0.2);
+      border-radius: 8px;
+      padding: 20px;
+      color: var(--navy);
+      font-weight: 600;
+      font-size: 1rem;
+    }
+
+    /* FOOTER */
+    footer {
+      background: var(--navy);
+      padding: 48px 60px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .footer-logo {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--white);
+    }
+    .footer-logo span { color: var(--teal); }
+    footer p {
+      font-size: 0.82rem;
+      color: rgba(255,255,255,0.4);
+    }
+    .footer-links {
+      display: flex;
+      gap: 24px;
+      list-style: none;
+    }
+    .footer-links a {
+      color: rgba(255,255,255,0.4);
+      text-decoration: none;
+      font-size: 0.82rem;
+      transition: color 0.2s;
+    }
+    .footer-links a:hover { color: var(--teal); }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">Ko<span>-labz</span></div>
+  <ul class="nav-links">
+    <li><a href="#services">Services</a></li>
+    <li><a href="#ai">AI Security</a></li>
+    <li><a href="#why">Why Ko-labz</a></li>
+    <li><a href="#process">Process</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#contact" class="nav-cta">Book a Call</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-content">
+    <div class="hero-badge">🔒 Security Consulting</div>
+    <h1>Security leadership<br/>for <em>companies that<br/>can't wait</em></h1>
+    <p>Ko-labz brings Fortune 500-level security expertise to startups and growing companies. Fractional CISO leadership, SOC 2 readiness, and GRC programs built for the pace you move at.</p>
+    <div class="hero-actions">
+      <a href="#contact" class="btn-primary">Book a Free Consultation</a>
+      <a href="#services" class="btn-outline">Explore Services</a>
+    </div>
+    <div class="hero-stats">
+      <div>
+        <div class="stat-num">20+</div>
+        <div class="stat-label">Years in Security</div>
+      </div>
+      <div>
+        <div class="stat-num">SOC 2</div>
+        <div class="stat-label">Type I & II Readiness</div>
+      </div>
+      <div>
+        <div class="stat-num" style="font-size:1.1rem;">Meta · OKX · Credit Karma</div>
+        <div class="stat-label">Prior Experience</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHO WE HELP -->
+<section class="who" id="who">
+  <div class="section-tag">Who We Help</div>
+  <h2>Built for builders who<br/>need real security, fast</h2>
+  <div class="who-grid">
+    <div class="who-text">
+      <p>Early-stage companies face the same security threats as enterprises — but without the team, budget, or time to build a full security program from scratch. Ko-labz fills that gap.</p>
+      <p>Whether you need to pass a SOC 2 audit to close a deal, satisfy an enterprise customer questionnaire, or simply build a security foundation that won't slow you down, we've done it before — at scale.</p>
+    </div>
+    <div class="who-cards">
+      <div class="who-card">
+        <div class="who-card-icon">🚀</div>
+        <h4>Startups</h4>
+        <p>Seed to Series B companies needing security credibility to close enterprise deals.</p>
+      </div>
+      <div class="who-card">
+        <div class="who-card-icon">📈</div>
+        <h4>Scale-ups</h4>
+        <p>Growing teams formalizing security programs ahead of audits or compliance mandates.</p>
+      </div>
+      <div class="who-card">
+        <div class="who-card-icon">🏢</div>
+        <h4>SMBs</h4>
+        <p>Small businesses that need enterprise security expertise without a full-time hire.</p>
+      </div>
+      <div class="who-card">
+        <div class="who-card-icon">⚡</div>
+        <h4>Tech Companies</h4>
+        <p>SaaS and fintech companies with customers requiring SOC 2, ISO, or GDPR compliance.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="section-tag">Services</div>
+  <h2>Everything you need to<br/>secure and scale</h2>
+  <p class="section-intro">Practical, high-impact security programs tailored to your stage, your risk, and your customers' requirements.</p>
+  <div class="services-grid">
+    <div class="service-card">
+      <div class="service-icon">🛡️</div>
+      <h3>Fractional CISO</h3>
+      <p>Senior security leadership on a fractional basis — strategic direction, board-level reporting, and hands-on execution without the full-time cost.</p>
+      <ul class="service-list">
+        <li>Security strategy & roadmap development</li>
+        <li>Board and investor reporting</li>
+        <li>Vendor and tooling evaluations</li>
+        <li>Incident response leadership</li>
+        <li>Team mentorship & hiring support</li>
+      </ul>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">✅</div>
+      <h3>SOC 2 Readiness</h3>
+      <p>End-to-end SOC 2 Type I and Type II readiness — from gap assessment to audit day — so you can meet customer requirements and close deals faster.</p>
+      <ul class="service-list">
+        <li>Gap assessment & remediation roadmap</li>
+        <li>Policy & procedure development</li>
+        <li>Evidence collection & documentation</li>
+        <li>Auditor liaison and coordination</li>
+        <li>Continuous compliance monitoring</li>
+      </ul>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">📋</div>
+      <h3>GRC Program Build</h3>
+      <p>Governance, Risk, and Compliance programs designed for the real world — structured enough to satisfy auditors, lightweight enough to actually run.</p>
+      <ul class="service-list">
+        <li>Risk register & assessment frameworks</li>
+        <li>Control design and implementation</li>
+        <li>Compliance mapping (SOC 2, ISO 27001, NIST)</li>
+        <li>Vendor risk management</li>
+        <li>Security awareness training</li>
+      </ul>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">🔍</div>
+      <h3>Security Assessments</h3>
+      <p>A clear picture of your current security posture — what's working, what's not, and a prioritized action plan to close the gaps that matter most.</p>
+      <ul class="service-list">
+        <li>Security posture assessments</li>
+        <li>Third-party risk assessments</li>
+        <li>Cloud security reviews (AWS, GCP, Azure)</li>
+        <li>Customer security questionnaire support</li>
+        <li>Executive threat briefings</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- AI SECURITY -->
+<section class="ai-section" id="ai">
+  <div class="ai-badge">✦ New</div>
+  <div class="section-tag">AI Security</div>
+  <h2>Security built for the<br/>age of AI</h2>
+  <p class="section-intro">AI is moving fast. The risks are real. Ko-labz helps AI-powered companies build trust, meet emerging regulations, and secure the systems that power their products.</p>
+
+  <div class="ai-grid">
+    <div class="ai-card">
+      <div class="ai-card-icon">🤖</div>
+      <h3>Security for AI Startups</h3>
+      <p>Purpose-built security programs for AI-native companies. From securing your model pipeline to satisfying enterprise customers asking hard questions about how you handle data and AI outputs.</p>
+      <div class="ai-tags">
+        <span class="ai-tag">Model Security</span>
+        <span class="ai-tag">Data Pipeline</span>
+        <span class="ai-tag">AI Vendor Risk</span>
+        <span class="ai-tag">Customer Trust</span>
+      </div>
+    </div>
+    <div class="ai-card">
+      <div class="ai-card-icon">🏛️</div>
+      <h3>AI Governance</h3>
+      <p>Design and implement AI governance frameworks that satisfy regulators, customers, and boards. We translate the EU AI Act, NIST AI RMF, and emerging standards into practical policies your team can actually run.</p>
+      <div class="ai-tags">
+        <span class="ai-tag">EU AI Act</span>
+        <span class="ai-tag">NIST AI RMF</span>
+        <span class="ai-tag">Responsible AI</span>
+        <span class="ai-tag">AI Policies</span>
+      </div>
+    </div>
+    <div class="ai-card">
+      <div class="ai-card-icon">🔗</div>
+      <h3>AI Supply Chain Security</h3>
+      <p>The new frontier of third-party risk. We assess risks from AI coding assistants, MCP integrations, LLM plugins, and external model providers — the attack surface most companies aren't watching yet.</p>
+      <div class="ai-tags">
+        <span class="ai-tag">MCP Security</span>
+        <span class="ai-tag">LLM Risk</span>
+        <span class="ai-tag">Prompt Injection</span>
+        <span class="ai-tag">AI Extensions</span>
+      </div>
+    </div>
+    <div class="ai-card">
+      <div class="ai-card-icon">📊</div>
+      <h3>AI Risk Assessment</h3>
+      <p>A clear-eyed view of the AI-specific risks in your stack — model poisoning, data leakage, bias and fairness exposure, and regulatory non-compliance — with a prioritized roadmap to address them.</p>
+      <div class="ai-tags">
+        <span class="ai-tag">Risk Register</span>
+        <span class="ai-tag">Model Audits</span>
+        <span class="ai-tag">Bias & Fairness</span>
+        <span class="ai-tag">Data Leakage</span>
+      </div>
+    </div>
+    <div class="ai-card">
+      <div class="ai-card-icon">🛡️</div>
+      <h3>AI-Augmented GRC</h3>
+      <p>We help companies deploying AI internally build the governance controls, audit trails, and oversight mechanisms regulators and enterprise customers are increasingly demanding.</p>
+      <div class="ai-tags">
+        <span class="ai-tag">AI Audit Trails</span>
+        <span class="ai-tag">Human Oversight</span>
+        <span class="ai-tag">AI Controls</span>
+        <span class="ai-tag">Compliance</span>
+      </div>
+    </div>
+    <div class="ai-card">
+      <div class="ai-card-icon">📋</div>
+      <h3>AI Customer Trust</h3>
+      <p>Win enterprise deals faster by showing customers exactly how you use their data in AI systems, what guardrails are in place, and how you handle model outputs. We build the documentation that closes deals.</p>
+      <div class="ai-tags">
+        <span class="ai-tag">Security Questionnaires</span>
+        <span class="ai-tag">AI Trust Reports</span>
+        <span class="ai-tag">Data Use Policies</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="ai-highlight">
+    <div>
+      <h3>Not sure where your AI risks are? Start with an AI Security Review.</h3>
+      <p>A focused assessment of your AI stack, data flows, and governance posture — with a plain-language report your team and your customers can actually use.</p>
+    </div>
+    <a href="#contact" class="btn-primary" style="white-space:nowrap; flex-shrink:0;">Book a Review →</a>
+  </div>
+</section>
+
+<!-- WHY KO-LABZ -->
+<section class="why" id="why">
+  <div class="section-tag">Why Ko-labz</div>
+  <h2>Security that works with<br/>how you actually build</h2>
+  <p class="section-intro">We've worked inside the largest tech companies in the world. Now we bring that expertise to companies like yours.</p>
+  <div class="why-grid">
+    <div class="why-card">
+      <div class="why-num">01</div>
+      <h3>Enterprise expertise, startup speed</h3>
+      <p>Built security programs at Meta, OKX, and Credit Karma. We know how to right-size enterprise-grade security for the stage you're at.</p>
+    </div>
+    <div class="why-card">
+      <div class="why-num">02</div>
+      <h3>Outcomes, not overhead</h3>
+      <p>We don't build security theater. Every control, policy, and process we put in place is designed to reduce real risk and satisfy real auditors.</p>
+    </div>
+    <div class="why-card">
+      <div class="why-num">03</div>
+      <h3>Flexible engagements</h3>
+      <p>Monthly retainers, project-based engagements, or one-time assessments. We work the way you need, without locking you into long contracts.</p>
+    </div>
+    <div class="why-card">
+      <div class="why-num">04</div>
+      <h3>Audit-ready deliverables</h3>
+      <p>Every policy, control, and piece of documentation we create is built to satisfy auditors from day one. No scrambling at crunch time.</p>
+    </div>
+    <div class="why-card">
+      <div class="why-num">05</div>
+      <h3>Founder-friendly communication</h3>
+      <p>Security explained in plain language. You'll always know where you stand, what needs to happen next, and why it matters to your business.</p>
+    </div>
+    <div class="why-card">
+      <div class="why-num">06</div>
+      <h3>Trusted by investors too</h3>
+      <p>We've presented to boards and investors. We understand the dual audience — your customers need compliance, your investors need confidence.</p>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section class="process" id="process">
+  <div class="section-tag">How It Works</div>
+  <h2>From first call to<br/>audit-ready in weeks</h2>
+  <p class="section-intro">A clear, structured process that gets you from where you are today to where your customers need you to be.</p>
+  <div class="process-steps">
+    <div class="process-step">
+      <div class="step-circle">1</div>
+      <h4>Discovery Call</h4>
+      <p>We learn your business, your risk profile, and what's driving your security needs — compliance deadline, customer requirement, or proactive build.</p>
+    </div>
+    <div class="process-step">
+      <div class="step-circle">2</div>
+      <h4>Gap Assessment</h4>
+      <p>We map your current state against the required framework (SOC 2, ISO, NIST) and deliver a prioritized remediation roadmap.</p>
+    </div>
+    <div class="process-step">
+      <div class="step-circle">3</div>
+      <h4>Program Build</h4>
+      <p>We implement controls, build policies, and stand up the processes you need — working alongside your team to make it real and sustainable.</p>
+    </div>
+    <div class="process-step">
+      <div class="step-circle">4</div>
+      <h4>Audit & Beyond</h4>
+      <p>We guide you through the audit, act as auditor liaison, and stay on to ensure your program stays healthy and compliant over time.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-grid">
+    <div class="about-image-placeholder">🔐</div>
+    <div class="about-text">
+      <div class="section-tag">About</div>
+      <h2>Security leadership<br/>with real-world scars</h2>
+      <p>Ko-labz was founded by Kathy DelGesso, a security executive with over 20 years of experience building and leading security programs at some of the most demanding companies in tech.</p>
+      <p>Having served as a security leader at Meta, OKX, and Credit Karma, Kathy has seen what good security looks like at scale — and what happens when it's missing. Ko-labz exists to give early-stage and growing companies access to that same level of expertise.</p>
+      <p>The name says it all: security is a collaboration. We work <em>with</em> your team, not around them.</p>
+      <div class="credentials">
+        <span class="cred-tag">CISO</span>
+        <span class="cred-tag">SOC 2 Type I & II</span>
+        <span class="cred-tag">ISO 27001</span>
+        <span class="cred-tag">NIST CSF</span>
+        <span class="cred-tag">GDPR</span>
+        <span class="cred-tag">Cloud Security</span>
+        <span class="cred-tag">GRC</span>
+        <span class="cred-tag">Meta · OKX · Credit Karma</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA BANNER -->
+<section class="cta-banner" id="contact">
+  <h2>Ready to get secure?</h2>
+  <p>Book a free 30-minute consultation and find out what it would take to meet your security goals.</p>
+  <form class="contact-form" action="https://formspree.io/f/xgobdjnk" method="POST">
+    <input type="text" name="name" placeholder="Your name" required />
+    <input type="email" name="email" placeholder="Your email" required />
+    <textarea name="message" placeholder="Tell us about your security needs (optional)"></textarea>
+    <button type="submit" class="btn-dark">Book a Free Consultation →</button>
+  </form>
+  <div class="form-success" id="form-success">✓ Thanks! We'll be in touch within one business day.</div>
+  <script>
+    document.querySelector('.contact-form').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const form = e.target;
+      const data = new FormData(form);
+      const res = await fetch(form.action, { method: 'POST', body: data, headers: { 'Accept': 'application/json' } });
+      if (res.ok) {
+        form.style.display = 'none';
+        document.getElementById('form-success').style.display = 'block';
+      }
+    });
+  </script>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div>
+    <div class="footer-logo">Ko<span>-labz</span></div>
+    <p style="margin-top:6px;">Security Consulting · kathy@ko-labz.com</p>
+  </div>
+  <ul class="footer-links">
+    <li><a href="#services">Services</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <p>© 2026 Ko-labz. All rights reserved.</p>
+</footer>
+
+</body>
+</html>
